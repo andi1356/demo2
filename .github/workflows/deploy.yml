@@ -15,7 +15,7 @@ jobs:
         run: |
           echo "${{ secrets.PI_SSH_KEY }}" > id_rsa
           chmod 600 id_rsa
-gi
+
       - name: Deploy via SSH
         run: |
           ssh -o StrictHostKeyChecking=no -p ${{ secrets.PI_SSH_PORT }} -i id_rsa ${{ secrets.PI_USER }}@${{ secrets.PI_HOST }} << 'EOF'
