@@ -18,11 +18,7 @@ jobs:
 
       - name: Deploy via SSH
         run: |
-               ssh -o StrictHostKeyChecking=no -i id_rsa ${{ secrets.PI_USER }}@${{ secrets.PI_HOST }} << 'EOF'
-               cd ~/myapp
-               git pull
-#                      echo "${{ secrets.SOPS_KEY }}" > sops.key
-#                      export SOPS_AGE_KEY_FILE=./sops.key
-#                      sops -d secrets/secrets.enc.yaml > secrets/app.env
-               docker-compose up -d --build
-               EOF
+          ssh -o StrictHostKeyChecking=no -p ${{ secrets.PI_SSH_PORT }} -i id_rsa ${{ secrets.PI_USER }}@${{ secrets.PI_HOST }} << 'EOF'
+          pwd
+          docker-compose up -d --build
+          EOF
