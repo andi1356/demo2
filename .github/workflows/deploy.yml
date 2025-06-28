@@ -13,12 +13,14 @@ jobs:
 
       - name: Setup SSH key
         run: |
-          echo "${{ secrets.PI_SSH_KEY }}" > id_rsa
-          chmod 600 id_rsa
+          mkdir -p ~/.ssh
+          echo "${{ secrets.PI_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+      
 
       - name: Deploy via SSH
         run: |
           ssh -o StrictHostKeyChecking=no -p ${{ secrets.PI_SSH_PORT }} -i id_rsa ${{ secrets.PI_USER }}@${{ secrets.PI_HOST }} << 'EOF'
           pwd
-          docker-compose up -d --build
           EOF
