@@ -19,8 +19,8 @@ jobs:
       - name: Deploy via SSH
         run: |
           ssh -o StrictHostKeyChecking=no -p ${{ secrets.PI_SSH_PORT }} -i id_rsa ${{ secrets.PI_USER }}@${{ secrets.PI_HOST }} << 'EOF'
-          pwd
-          echo "IM IN"
-          touch git-runner-baby.txt
-          ls
+          git pull
+          cd demo2
+          echo "${{ secrets.PI_DECRYPTION_PASS }}" > pass_file
+          openssl enc -d -aes-256-cbc -salt -pbkdf2 -iter 310000 -in secrets.enc -out secrets -pass "file:pass_file"
           EOF
