@@ -22,11 +22,11 @@ jobs:
       - name: Deploy via SSH
         run: |
           ssh -o StrictHostKeyChecking=no -p ${{ secrets.PI_SSH_PORT }} -i id_rsa ${{ secrets.PI_USER }}@${{ secrets.PI_HOST }} << 'EOF'
-          echo ${{ github.event.repository.name }}
           echo ${{ github.repository.name }}
-          rm -rf ${{ github.event.repository }}
+          rm -rf ${{ github.event.repository.name }}
           git clone git@github.com:${{ github.repository }}.git 
           cd demo2
           echo "${{ secrets.PI_DECRYPTION_PASS }}" > pass_file
           openssl enc -d -aes-256-cbc -pbkdf2 -iter 1000 -salt -in secrets.enc -out secrets -pass "file:pass_file"
+          docker-compose up -d --env
           EOF
