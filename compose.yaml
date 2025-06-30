@@ -4,7 +4,7 @@ services:
     env_file:
       secrets
     environment:
-      - 'POSTGRES_DB=${SECRETS_DATABASE_NAME}'
+      - 'POSTGRES_DB=my-db-dada'
       - 'POSTGRES_PASSWORD=secret'
       - 'POSTGRES_USER=myuser'
     ports:
