@@ -6,10 +6,13 @@ on:
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Deploy with Docker Compose
+        run: docker-compose up -d
 
       - name: Setup SSH key
         run: |
@@ -19,7 +22,7 @@ jobs:
       - name: Deploy via SSH
         run: |
           ssh -o StrictHostKeyChecking=no -p ${{ secrets.PI_SSH_PORT }} -i id_rsa ${{ secrets.PI_USER }}@${{ secrets.PI_HOST }} << 'EOF'
-          git clone git@github.com:${{ github.repository }}.git
+          git clone git@github.com:${{ github.repository }}.git 
           cd demo2
           echo "${{ secrets.PI_DECRYPTION_PASS }}" > pass_file
           openssl enc -d -aes-256-cbc -pbkdf2 -iter 1000 -salt -in secrets.enc -out secrets -pass "file:pass_file"
