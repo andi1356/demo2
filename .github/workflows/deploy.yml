@@ -22,8 +22,8 @@ jobs:
       - name: Deploy via SSH
         run: |
           ssh -o StrictHostKeyChecking=no -p ${{ secrets.PI_SSH_PORT }} -i id_rsa ${{ secrets.PI_USER }}@${{ secrets.PI_HOST }} << 'EOF'
-          echo ${{ github.event.repository }}
-          echo ${{ github.repository_id }}
+          echo ${{ github.event.repository.name }}
+          echo ${{ github.repository.name }}
           rm -rf ${{ github.event.repository }}
           git clone git@github.com:${{ github.repository }}.git 
           cd demo2
