@@ -22,5 +22,5 @@ jobs:
           git pull
           cd demo2
           echo "${{ secrets.PI_DECRYPTION_PASS }}" > pass_file
-          openssl enc -d -aes-256-cbc -salt -pbkdf2 -iter 310000 -in secrets.enc -out secrets -pass "file:pass_file"
+          openssl enc -d -aes-256-cbc -pbkdf2 -iter 1000 -salt -in secrets.enc -out secrets -pass "file:pass_file"
           EOF
